@@ -38,7 +38,6 @@ public class EightPuzzleBFS {
 	
 
 	public static void eightPuzzle(int sr,int sc,int initialState[][],int goalState[][]) {
-		 long startTime = System.currentTimeMillis();
         Queue<Nodee> q = new LinkedList<>();
         int newState[][] = new int[3][3];
         for (int i = 0; i < 3; i++) {
@@ -61,10 +60,6 @@ public class EightPuzzleBFS {
                 			ans[k][j]=state[k][j];
                 		}
                 	}
-                	long endTime = System.currentTimeMillis();
-	           	     long elapsedTime = endTime - startTime;
-
-	           	     System.out.println("Time taken to solve: " + elapsedTime + " milliseconds");
                 	return;
                 }
                 int srow = node.sr;
@@ -141,10 +136,6 @@ public class EightPuzzleBFS {
         		
             }
         }
-        long endTime = System.currentTimeMillis();
-	     long elapsedTime = endTime - startTime;
-
-	     System.out.println("Time taken to solve: " + elapsedTime + " milliseconds");
 	     System.out.println("No solution was found");
     }
 	
