@@ -1,0 +1,71 @@
+
+% Facts for car names
+car_name(tesla_model_s).
+car_name(ford_mustang).
+car_name(toyota_camry).
+car_name(chevrolet_bolt).
+
+% Facts for car prices (in dollars)
+car_price(tesla_model_s, 80000).
+car_price(ford_mustang, 55000).
+car_price(toyota_camry, 25000).
+car_price(chevrolet_bolt, 37000).
+
+% Facts for car brands
+car_brand(tesla_model_s, tesla).
+car_brand(ford_mustang, ford).
+car_brand(toyota_camry, toyota).
+car_brand(chevrolet_bolt, chevrolet).
+
+% Facts for car colors
+car_color(tesla_model_s, black).
+car_color(ford_mustang, red).
+car_color(toyota_camry, white).
+car_color(chevrolet_bolt, blue).
+
+% Rule to check if a car is premium (price greater than 500,000)
+is_premium(Name) :-
+    car_price(Name, Price),
+    Price > 500000.
+
+% Rule to check if a car is red
+is_red(Name) :-
+    car_color(Name, red).
+
+% Rule to check the price of a car
+check_price(Name, Price) :-
+    car_price(Name, Price).
+
+% Rule to identify cars by brand
+car_by_brand(Name, Brand) :-
+    car_brand(Name, Brand).
+
+% Rule to identify cars by color
+car_by_color(Name, Color) :-
+    car_color(Name, Color).
+
+
+% Rule to identify cars by price range (e.g., less than a specific amount)
+car_by_price_range(Name, MaxPrice) :-
+    car_price(Name, Price),
+    Price =< MaxPrice.
+
+
+
+% Check if a car is premium (price greater than 500,000)
+%?- is_premium(Name).
+
+% Check if a car is red
+%?- is_red(Name).
+
+% Check the price of a car (e.g., Tesla Model S)
+%?- check_price(tesla_model_s, Price).
+
+% Find cars by brand (e.g., Tesla)
+%?- car_by_brand(Name, tesla).
+
+% Find cars by color (e.g., white)
+%?- car_by_color(Name, white).
+
+% Find cars within a price range (e.g., less than 60,000)
+%?- car_by_price_range(Name, 60000).
