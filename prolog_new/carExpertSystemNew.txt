@@ -1,0 +1,173 @@
+% Facts for car names
+car_name(tesla_model_s).
+car_name(ford_mustang).
+car_name(toyota_camry).
+car_name(chevrolet_bolt).
+
+% Facts for car prices (in dollars)
+car_price(tesla_model_s, 80000).
+car_price(ford_mustang, 55000).
+car_price(toyota_camry, 25000).
+car_price(chevrolet_bolt, 37000).
+
+% Facts for car brands
+car_brand(tesla_model_s, tesla).
+car_brand(ford_mustang, ford).
+car_brand(toyota_camry, toyota).
+car_brand(chevrolet_bolt, chevrolet).
+
+% Facts for car colors
+car_color(tesla_model_s, black).
+car_color(ford_mustang, red).
+car_color(toyota_camry, white).
+car_color(chevrolet_bolt, blue).
+
+% Rule to check if a car is premium (price greater than 500,000)
+is_premium(Name) :-
+    car_price(Name, Price),
+    Price > 500000.
+
+% Rule to check if a car is red
+is_red(Name) :-
+    car_color(Name, red).
+
+% Rule to check the price of a car
+check_price(Name, Price) :-
+    car_price(Name, Price).
+
+% Rule to identify cars by brand
+car_by_brand(Name, Brand) :-
+    car_brand(Name, Brand).
+
+% Rule to identify cars by color
+car_by_color(Name, Color) :-
+    car_color(Name, Color).
+
+% Rule to identify cars by price range (e.g., less than a specific amount)
+car_by_price_range(Name, MaxPrice) :-
+    car_price(Name, Price),
+    Price =< MaxPrice.
+
+% Rule to find the most expensive car
+most_expensive_car(Name) :-
+    car_price(Name, Price),
+    \+ (car_price(_, OtherPrice), OtherPrice > Price).
+
+% Rule to find cars within a price range and of a specific brand
+car_by_price_range_and_brand(Name, MaxPrice, Brand) :-
+    car_price(Name, Price),
+    car_brand(Name, Brand),
+    Price =< MaxPrice.
+
+% Rule to find cars of a specific brand and color
+car_by_brand_and_color(Name, Brand, Color) :-
+    car_brand(Name, Brand),
+    car_color(Name, Color).
+
+% Predicate to check if a car is premium based on user input
+check_if_premium :-
+    write('Enter the name of the car: '),
+    read(Name),
+    (is_premium(Name) ->
+        format('The car ~w is premium.~n', [Name]);
+        format('The car ~w is not premium.~n', [Name])).
+
+% Predicate to check if a car is red based on user input
+check_if_red :-
+    write('Enter the name of the car: '),
+    read(Name),
+    (is_red(Name) ->
+        format('The car ~w is red.~n', [Name]);
+        format('The car ~w is not red.~n', [Name])).
+
+% Predicate to check the price of a car based on user input
+get_price :-
+    write('Enter the name of the car: '),
+    read(Name),
+    (check_price(Name, Price) ->
+        format('The price of the car ~w is ~w dollars.~n', [Name, Price]);
+        write('Car not found.~n')).
+
+% Predicate to find cars by brand based on user input
+find_cars_by_brand :-
+    write('Enter the brand of the car: '),
+    read(Brand),
+    findall(Name, car_by_brand(Name, Brand), Cars),
+    (Cars \= [] ->
+        format('Cars of brand ~w: ~w~n', [Brand, Cars]);
+        write('No cars found for the given brand.~n')).
+
+% Predicate to find cars by color based on user input
+find_cars_by_color :-
+    write('Enter the color of the car: '),
+    read(Color),
+    findall(Name, car_by_color(Name, Color), Cars),
+    (Cars \= [] ->
+        format('Cars of color ~w: ~w~n', [Color, Cars]);
+        write('No cars found for the given color.~n')).
+
+% Predicate to find cars within a price range based on user input
+find_cars_by_price_range :-
+    write('Enter the maximum price: '),
+    read(MaxPrice),
+    findall(Name, car_by_price_range(Name, MaxPrice), Cars),
+    (Cars \= [] ->
+        format('Cars within price range ~w: ~w~n', [MaxPrice, Cars]);
+        write('No cars found within the given price range.~n')).
+
+% Predicate to find the most expensive car
+find_most_expensive_car :-
+    most_expensive_car(Name),
+    format('The most expensive car is ~w.~n', [Name]).
+
+% Predicate to find cars within a price range and of a specific brand based on user input
+find_cars_by_price_range_and_brand :-
+    write('Enter the maximum price: '),
+    read(MaxPrice),
+    write('Enter the brand of the car: '),
+    read(Brand),
+    findall(Name, car_by_price_range_and_brand(Name, MaxPrice, Brand), Cars),
+    (Cars \= [] ->
+        format('Cars of brand ~w within price range ~w: ~w~n', [Brand, MaxPrice, Cars]);
+        write('No cars found for the given brand and price range.~n')).
+
+% Predicate to find cars of a specific brand and color based on user input
+find_cars_by_brand_and_color :-
+    write('Enter the brand of the car: '),
+    read(Brand),
+    write('Enter the color of the car: '),
+    read(Color),
+    findall(Name, car_by_brand_and_color(Name, Brand, Color), Cars),
+    (Cars \= [] ->
+        format('Cars of brand ~w and color ~w: ~w~n', [Brand, Color, Cars]);
+        write('No cars found for the given brand and color.~n')).
+
+% Load the Prolog file
+%?- ['car_expert_system.pl'].
+
+% Check if a car is premium based on user input
+%?- check_if_premium.
+
+% Check if a car is red based on user input
+%?- check_if_red.
+
+% Get the price of a car based on user input
+%?- get_price.
+
+% Find cars by brand based on user input
+%?- find_cars_by_brand.
+
+% Find cars by color based on user input
+%?- find_cars_by_color.
+
+% Find cars within a price range based on user input
+%?- find_cars_by_price_range.
+
+% Find the most expensive car
+%?- find_most_expensive_car.
+
+% Find cars within a price range and of a specific brand based on user input
+%?- find_cars_by_price_range_and_brand.
+
+% Find cars of a specific brand and color based on user input
+%?- find_cars_by_brand_and_color.

@@ -1,0 +1,90 @@
+% Facts for diseases (name, type, symptom)
+disease(flu, viral, fever).
+disease(flu, viral, cough).
+disease(common_cold, viral, sneezing).
+disease(common_cold, viral, cough).
+disease(malaria, parasitic, fever).
+disease(malaria, parasitic, chills).
+disease(diabetes, chronic, increased_thirst).
+disease(diabetes, chronic, frequent_urination).
+disease(cancer, chronic, unexplained_weight_loss).
+
+% Facts for contagious diseases
+contagious(flu).
+contagious(common_cold).
+
+% Rule to provide more information about chronic diseases
+chronic_disease_info(diabetes, 'Diabetes is a chronic condition that affects the way the body processes blood sugar.').
+chronic_disease_info(cancer, 'Cancer is a group of diseases involving abnormal cell growth with the potential to invade or spread to other parts of the body.').
+
+
+
+% Rule to check if a disease is curable (diseases other than cancer are considered curable)
+is_curable(Disease) :-
+    Disease \= cancer.
+
+% Rule to identify a disease based on symptom and type
+identify_disease(Symptom, Type, Disease) :-
+    disease(Disease, Type, Symptom).
+
+% Rule to check if a disease is contagious
+is_contagious(Disease) :-
+    contagious(Disease).
+
+% Rule to find diseases by type
+disease_by_type(Type, Disease) :-
+    disease(Disease, Type, _).
+
+% Predicate to take input and identify a disease
+diagnose_disease :-
+    write('Enter the symptom: '),
+    read(Symptom),
+    write('Enter the type: '),
+    read(Type),
+    (identify_disease(Symptom, Type, Disease) ->
+        format('The disease with symptom ~w and type ~w is ~w.~n', [Symptom, Type, Disease]);
+        write('No disease found with the given symptom and type.~n')).
+
+% Predicate to check if a disease is curable based on user input
+check_curable :-
+    write('Enter the name of the disease: '),
+    read(Disease),
+    (is_curable(Disease) ->
+        format('The disease ~w is curable.~n', [Disease]);
+        format('The disease ~w is not curable.~n', [Disease])).
+
+% Predicate to provide information about chronic diseases
+get_chronic_disease_info :-
+    write('Enter the name of the chronic disease: '),
+    read(Disease),
+    (chronic_disease_info(Disease, Info) ->
+        format('Information about ~w: ~w~n', [Disease, Info]);
+        write('No information available for the given chronic disease.~n')).
+
+% Predicate to list all diseases associated with a given symptom
+list_diseases_by_symptom :-
+    write('Enter the symptom: '),
+    read(Symptom),
+    findall(Disease, disease(Disease, _, Symptom), Diseases),
+    (Diseases \= [] ->
+        format('Diseases with symptom ~w: ~w~n', [Symptom, Diseases]);
+        write('No diseases found with the given symptom.~n')).
+
+
+% Load the Prolog file
+%?- ['disease_diagnosis.pl'].
+
+% Check if a disease is curable
+%?- check_curable.
+
+% Identify a disease based on symptom and type
+%?- diagnose_disease.
+
+% Check if a disease is contagious
+%?- is_contagious(flu).
+
+% Find diseases by type (e.g., viral)
+%?- disease_by_type(viral, Disease).
+
+
+

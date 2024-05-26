@@ -1,0 +1,98 @@
+% Facts for bird names
+bird_name(peacock).
+bird_name(robin).
+bird_name(eagle).
+bird_name(canary).
+bird_name(parrot).
+
+% Facts for bird habitats
+bird_habitat(peacock, forest).
+bird_habitat(robin, garden).
+bird_habitat(eagle, mountain).
+bird_habitat(canary, cage).
+bird_habitat(parrot, rainforest).
+
+% Facts for bird colors
+bird_color(peacock, blue).
+bird_color(robin, red).
+bird_color(eagle, brown).
+bird_color(canary, yellow).
+bird_color(parrot, green).
+
+% Facts for bird flying height ranges (in meters)
+bird_flying_height(peacock, 100).
+bird_flying_height(robin, 50).
+bird_flying_height(eagle, 1000).
+bird_flying_height(canary, 20).
+bird_flying_height(parrot, 30).
+
+% Facts for bird lifespans (in years)
+bird_lifespan(peacock, 15).
+bird_lifespan(robin, 2).
+bird_lifespan(eagle, 20).
+bird_lifespan(canary, 10).
+bird_lifespan(parrot, 50).
+
+% Facts for rare colors
+rare_color(gold).
+rare_color(red).
+rare_color(blue).
+
+% Fact for high flying height threshold
+high_flying_height(500).
+
+% Rule to check if a bird is rare
+is_rare(Name) :-
+    bird_color(Name, Color),
+    bird_flying_height(Name, FlyingHeight),
+    (rare_color(Color);
+    FlyingHeight > 500).
+
+% Rule to identify a bird based on color, habitat, flying height range, and lifespan
+identify_bird(Color, Habitat, HeightRange, Lifespan, Name) :-
+    bird_color(Name, Color),
+    bird_habitat(Name, Habitat),
+    bird_flying_height(Name, HeightRange),
+    bird_lifespan(Name, Lifespan).
+
+% Rule to check if a bird is high-flying (flying height above 500 meters)
+is_high_flying(Name) :-
+    bird_flying_height(Name, FlyingHeight),
+    FlyingHeight > 500.
+
+% Predicate to take input and identify a bird
+identify_bird_interactively :-
+    write('Enter the color: '), read(Color),
+    write('Enter the habitat: '), read(Habitat),
+    write('Enter the flying height range (in meters): '), read(HeightRange),
+    write('Enter the lifespan (in years): '), read(Lifespan),
+    (identify_bird(Color, Habitat, HeightRange, Lifespan, Name) ->
+        format('The bird with color ~w, habitat ~w, flying height range ~w meters, and lifespan ~w years is ~w.~n', [Color, Habitat, HeightRange, Lifespan, Name]);
+        write('No bird found with the given attributes.~n')).
+
+% Predicate to check if a bird is rare based on user input
+check_rare :-
+    write('Enter the name of the bird: '), read(Name),
+    (is_rare(Name) ->
+        format('The bird ~w is rare.~n', [Name]);
+        format('The bird ~w is not rare.~n', [Name])).
+
+% Predicate to check if a bird is high-flying based on user input
+check_high_flying :-
+    write('Enter the name of the bird: '), read(Name),
+    (is_high_flying(Name) ->
+        format('The bird ~w is high-flying.~n', [Name]);
+        format('The bird ~w is not high-flying.~n', [Name])).
+
+
+% Load the Prolog file
+%?- ['birds_identification.pl'].
+
+% Check if a bird is rare
+%?- check_rare.
+
+% Identify a bird based on color, habitat, flying height range, and lifespan
+%?- identify_bird_interactively.
+
+% Check if a bird is high-flying
+%?- check_high_flying.
